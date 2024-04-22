@@ -4,23 +4,42 @@ import viteLogo from '/vite.svg'
 import './App.css'
 import {
   createBrowserRouter,
+  Outlet,
   RouterProvider,
 } from "react-router-dom";
+import "./style.scss"
 
 import Home from './pages/Home';
 import Login from './pages/Login';
 import Register from './pages/Register';
 import Footer from './components/Footer';
 import Navbar from './components/Navbar';
+import Single from './pages/Single';
+import Write from './pages/Write';
 
+const Layout = () => {
+  return <>
+    <Navbar />
+    <Outlet />
+    <Footer />
+  </>
+}
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <div>
-      <Navbar />
-      <Home />
-      <Footer />
-    </div>,
+    element: <Layout />,
+    children: [{
+      path: "/",
+      element: <Home />
+    },
+    {
+      path: "/post/:id",
+      element: <Single />
+    },
+    {
+      path: "/write",
+      element: <Write />
+    }]
   },
   {
     path: "/login",
@@ -31,9 +50,11 @@ const router = createBrowserRouter([
 function App() {
 
   return (
-    <>
-      <RouterProvider router={router} />
-    </>
+    <div className="app">
+      <div className="container">
+        <RouterProvider router={router} />
+      </div>
+    </div>
   )
 }
 
